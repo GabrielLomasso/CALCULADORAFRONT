@@ -20,10 +20,6 @@
                 apaga()
                 document.getElementById("resultado").innerHTML == valor;            
             }
-
-            if(numero.length >= 12){
-                console.log("penis")
-            }
         }
 
         
@@ -66,25 +62,35 @@
             document.getElementById("resultado").innerHTML = resultado.substring(0, resultado.length - 1)
         }
 
-        function calcula(){
-            var resultado = document.getElementById("resultado").innerHTML;
-            var resultadoProibido = resultado.substring(resultado.length - 1)
+            function calcula() {
+                var resultado = document.getElementById("resultado").innerHTML;
+                var resultadoProibido = resultado.substring(resultado.length - 1);
+    
+                switch (resultadoProibido) {
+                    case "+": case "-": case "/": case "*": case ".":
+                        apaga();
+                        calcula();
+                    break;
+                }
+                if (resultado && resultadoProibido == "*" || resultadoProibido == "/" || resultadoProibido == "+" || resultadoProibido == "-"){
+                    document.getElementById("resultado").innerHTML = eval(resultado);
+                } else if (resultado) {
+                    document.getElementById("resultado").innerHTML = evaluateAndFormat(resultado);
+                } 
 
-                    switch(resultadoProibido){
-                        case "+": case "-": case "/": case "*": case ".":
-                            apaga()
-                            calcula()
-                        break
-                    }
-
-            document.getElementById("resultado").innerHTML = eval(resultado);
-            if(resultado){
-                
-            } else {
-                document.getElementById("resultado").innerHTML = "indefinido";
             }
-
-            if(resultado >= 12){
-                resultado.innerHTML = resultado
+    
+            function evaluateAndFormat(resultado, limite = 1e+11, fractionDigits = 2) {
+                try {
+                    const result = eval(resultado);
+                    return formatLargeNumber(result, limite, fractionDigits);
+                } catch {}
             }
-        }
+    
+            function formatLargeNumber(result, limite = 1e+11, fractionDigits = 2) {
+                if (Math.abs(result) >= limite) {
+                    return result.toExponential(fractionDigits);
+                }
+                return result.toString();
+            }
+        

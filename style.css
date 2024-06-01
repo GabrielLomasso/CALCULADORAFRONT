@@ -44,7 +44,8 @@
     justify-content: end;
     padding: 5px;
     box-shadow: 0 0 10px rgb(35, 35, 46);
-    overflow: hidden;
+    overflow-x: hidden;
+
 }
 
 .botoes{
