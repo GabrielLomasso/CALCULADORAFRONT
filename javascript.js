@@ -1,8 +1,4 @@
-        
-        
-        
-        
-        function verifica(definicao){
+function verifica(definicao){
             var numero = document.getElementById("resultado").innerHTML;
             var valor = numero.substring(numero.length - 1)
             
@@ -55,7 +51,9 @@
         }
         
         function apaga(){
-            if(document.getElementById("resultado").innerHTML == "indefinido" || document.getElementById("resultado").innerHTML == "Infinity"){
+            console.log(resultadoGuardado)
+            if(document.getElementById("resultado").innerHTML == "indefinido" || document.getElementById("resultado").innerHTML == "Infinity" || document.getElementById("resultado").innerHTML == resultadoGuardado){
+                
                 limpa();
             }
             var resultado = document.getElementById("resultado").innerHTML;
@@ -65,7 +63,7 @@
             function calcula() {
                 var resultado = document.getElementById("resultado").innerHTML;
                 var resultadoProibido = resultado.substring(resultado.length - 1);
-    
+                
                 switch (resultadoProibido) {
                     case "+": case "-": case "/": case "*": case ".":
                         apaga();
@@ -76,17 +74,18 @@
                     document.getElementById("resultado").innerHTML = eval(resultado);
                 } else if (resultado) {
                     document.getElementById("resultado").innerHTML = evaluateAndFormat(resultado);
+                    resultadoGuardado = evaluateAndFormat(resultado);
                 } 
-
+                
             }
-    
+            
             function evaluateAndFormat(resultado, limite = 1e+11, fractionDigits = 2) {
                 try {
                     const result = eval(resultado);
                     return formatLargeNumber(result, limite, fractionDigits);
                 } catch {}
             }
-    
+            
             function formatLargeNumber(result, limite = 1e+11, fractionDigits = 2) {
                 if (Math.abs(result) >= limite) {
                     return result.toExponential(fractionDigits);
